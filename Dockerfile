@@ -6,6 +6,9 @@ RUN apt upgrade -y
 
 # Install vim
 RUN apt install vim -y
+RUN apt-get install -y apache2
+RUN service apache2 start
+COPY hospital-web /var/www/html
 
 
 
