@@ -24,7 +24,6 @@ RUN apt install python3-pip -y
 RUN python3 -m pip install --upgrade pip
 
 #install mongodb
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
 RUN echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu/ xenial/mongodb-org/3.4 multiverse" |  tee /etc/apt/sources.list.d/mongodb-3.4.list
 
 RUN apt install -y mongodb
@@ -44,9 +43,10 @@ COPY requirement.txt /usr/src/app/
 RUN pip install --no-cache-dir -r /usr/src/app/requirement.txt
 
 # copy files required for the app to run
-COPY hospitalmanagement  /usr/src/app/
-
-COPY hospitalweb  /usr/src/app/
+RUN mkdir /usr/src/app/hospitalmanagement
+COPY hospitalmanagement  /usr/src/app/hospitalmanagement
+RUN mkdir /usr/src/app/hospitalweb
+COPY hospitalweb  /usr/src/app/hospitalweb
 
 COPY manage.py  /usr/src/app/
 
@@ -55,7 +55,7 @@ COPY manage.py  /usr/src/app/
 EXPOSE 8000
 
 # run the application
-RUN pwd
-RUN cd /usr/src/app
-CMD ["python3", "manage.py", "migrate"]
-CMD ["python3", "manage.py", "runserver"]
+# RUN pwd
+# RUN cd /usr/src/app
+# CMD ["python3", "manage.py", "migrate"]
+# CMD ["python3", "manage.py", "runserver"]
